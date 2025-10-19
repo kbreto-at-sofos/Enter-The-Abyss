@@ -1,12 +1,19 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
+    private static readonly int AnimatorYVelocity = Animator.StringToHash("yVelocity");
+    private static readonly int AnimatorMagnitud = Animator.StringToHash("magnitud");
+    private static readonly int AnimatorIsWallSliding = Animator.StringToHash("isWallSliding");
+    private static readonly int AnimatorJump = Animator.StringToHash("jump");
 
-    
+
     [SerializeField] private Rigidbody2D rb;
+    public Animator animator;
+    private bool _isFacingRight = true;
     
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
@@ -33,7 +40,6 @@ public class PlayerController : MonoBehaviour
     public Transform wallCheckPosition;
     [SerializeField] private Vector2 wallCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask wallLayer;
-    private bool _isFacingRight = true;
 
     [Header("Wall Movement")] 
     public float wallSlideSpeed = 2;
@@ -61,16 +67,20 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
         Gravity();
         WallSlide();
-        WallJump();
+        ProcessWallJump();
 
-        if (_isWallJumping)
+        if (!_isWallJumping)
         {
-            return;
+            // Move
+            rb.linearVelocity = new Vector2(_horizontalMovement * moveSpeed, rb.linearVelocity.y);    
+            Flip();
         }
         
-        // Move
-        rb.linearVelocity = new Vector2(_horizontalMovement * moveSpeed, rb.linearVelocity.y);    
-        Flip();
+    }
+
+    private void FixedUpdate()
+    {
+        Animate();
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -80,14 +90,13 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        Debug.Log("jumping " + _remainingJumps);
         if (_remainingJumps > 0)
         {
-            Debug.Log("should jump");
             if (context.performed)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 _remainingJumps--;
+                AnimateJump();
             }    
         }
         
@@ -95,6 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCancelForce );
             _remainingJumps--;
+            AnimateJump();
         }
         
         // WALL JUMP
@@ -106,6 +116,7 @@ public class PlayerController : MonoBehaviour
             // Jump away from the wall
             rb.linearVelocity = new Vector2(_wallJumpDirection * wallJumpPower.x, wallJumpPower.y);
             _wallJumpTimer = 0;
+            AnimateJump();
             
             // Force Flip
             if (transform.localScale.x != _wallJumpDirection)
@@ -168,12 +179,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void WallJump()
+    private void ProcessWallJump()
     {
         if (_isWallSliding)
         {
             _isWallJumping = false;
-            _wallJumpDirection = -transform.localScale.x; // another way that we are facing
+            _wallJumpDirection = -transform.localScale.x; // set to the other way that we are facing
             _wallJumpTimer = wallJumpTime; //reset wall jump timer
             
             CancelInvoke(nameof(CancelWallJump));
@@ -204,6 +215,22 @@ public class PlayerController : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
+    }
+
+    private void Animate()
+    {
+        
+        // estaba obteniendo un decimal muy muy pequeño al usar rb.linearVelocity.y
+        // eso estaba rompiendo la animacion al caminar a la izquierda especificamente
+        // por eso ahora utilizo Mathf.Round(rb.linearVelocity.y)
+        animator.SetFloat(AnimatorYVelocity, Mathf.Round(rb.linearVelocity.y));
+        animator.SetFloat(AnimatorMagnitud, rb.linearVelocity.magnitude);
+        animator.SetBool(AnimatorIsWallSliding, _isWallSliding);
+    }
+
+    private void AnimateJump()
+    {
+        animator.SetTrigger(AnimatorJump);
     }
 
     private void OnDrawGizmosSelected()

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform player;
-    public float chaseSpeed = 2f;
+    public float chaseSpeed = 4f;
     public float jumpForce = 2f;
     public LayerMask groundLayer;
 
@@ -29,9 +29,11 @@ public class Enemy : MonoBehaviour
         //Player above detection
         bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
 
+        //Chase player
+        
         if (_isGrounded)
         {
-            //Chase player
+            
             _rb.linearVelocity = new Vector2(direction * chaseSpeed, _rb.linearVelocity.y);
             
             //Jump if there's gap ahead && no ground infront
@@ -52,7 +54,7 @@ public class Enemy : MonoBehaviour
             if (!groundInFront.collider && !gapAhead.collider)
             {
                 _shouldJump = true;
-            }else if (isPlayerAbove && !platformAbove.collider)
+            }else if (isPlayerAbove && platformAbove.collider)
             {
                 _shouldJump = true;
             }
@@ -61,11 +63,14 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log(_isGrounded + " " +  _shouldJump);
         if (_isGrounded && _shouldJump)
         {
             _shouldJump = false;
             Vector2 direction = (player.position - transform.position).normalized;
+            Vector2 jumpDirection = direction * jumpForce;
             
+            _rb.AddForce(new Vector2(jumpDirection.x, jumpForce), ForceMode2D.Impulse);
         }
     }
 }

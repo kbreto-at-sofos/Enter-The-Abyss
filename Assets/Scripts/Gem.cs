@@ -9,7 +9,7 @@ public class Gem : MonoBehaviour, IItem
 
     public void Collect()
     {
-        OnGemCollect.Invoke(worth);
+        OnGemCollect?.Invoke(worth);
         Destroy(gameObject);
     }
 }

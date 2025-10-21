@@ -4,10 +4,11 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private Transform player;
-    public float chaseSpeed = 4f;
+    public float chaseSpeed = 3f;
     public float jumpForce = 2f;
     public LayerMask groundLayer;
-
+    public LayerMask playerLayer;
+    
     private Rigidbody2D _rb;
     private bool _isGrounded;
     private bool _shouldJump;
@@ -30,7 +31,7 @@ public class Enemy : MonoBehaviour
         float direction = Mathf.Sign(player.position.x - transform.position.x);
         
         //Player above detection
-        bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
+        bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, playerLayer);
 
         //Chase player
         
@@ -44,7 +45,7 @@ public class Enemy : MonoBehaviour
             
             //if ground
             RaycastHit2D groundInFront =
-                Physics2D.Raycast(transform.position, new Vector2(direction, 0), 2f, groundLayer);
+                Physics2D.Raycast(transform.position, new Vector2(direction, 0), 3f, groundLayer);
             
             //if gap
             RaycastHit2D gapAhead =
@@ -54,7 +55,7 @@ public class Enemy : MonoBehaviour
             RaycastHit2D platformAbove =
                 Physics2D.Raycast(transform.position, Vector2.up, 3f, groundLayer);
 
-            if (!groundInFront.collider && !gapAhead.collider)
+            if (groundInFront.collider || gapAhead.collider)
             {
                 _shouldJump = true;
             }else if (isPlayerAbove && platformAbove.collider)

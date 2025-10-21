@@ -52,6 +52,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
   damage: 1
 --- !u!50 &7460868332297291751
 Rigidbody2D:

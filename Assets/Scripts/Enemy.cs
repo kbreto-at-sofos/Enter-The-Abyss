@@ -57,7 +57,6 @@ public class Enemy : MonoBehaviour
 
             if (groundInFront.collider || !gapAhead.collider)
             {
-                Debug.Log(groundInFront.collider);
                 _shouldJump = true;
             }else if (isPlayerAbove && platformAbove.collider)
             {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class ObjectSpawner : MonoBehaviour
@@ -13,8 +14,7 @@ public class ObjectSpawner : MonoBehaviour
     public float gemProbability;
     public float bigGemProbability = 0.2f;
     public float enemyProbability = 0.1f;
-    public int maxObjects = 10;
-    public int maxEnemies = 3;
+    
     private int _enemiesCount = 0;
     public float gemLifeTime = 10f;
     public float spawnInterval = 0.5f;
@@ -23,6 +23,8 @@ public class ObjectSpawner : MonoBehaviour
     private List<GameObject> _spawnObjects = new List<GameObject>();
     
     private bool _isSpawning = false;
+
+    [FormerlySerializedAs("LevelConfiguration")] public LevelConfiguration levelConfiguration;
     
     
     
@@ -48,7 +50,7 @@ public class ObjectSpawner : MonoBehaviour
             //Level change
             LevelChange();
         }
-        if (!_isSpawning && ActiveObjectCount() < maxObjects)
+        if (!_isSpawning && ActiveObjectCount() < levelConfiguration.LevelMaxGems[levelConfiguration.CurrentLevel])
         {
             StartCoroutine(SpawnObjectsIfNeeded());
         }
@@ -70,7 +72,7 @@ public class ObjectSpawner : MonoBehaviour
     private IEnumerator SpawnObjectsIfNeeded()
     {
         _isSpawning = true;
-        while (ActiveObjectCount() < maxObjects)
+        while (ActiveObjectCount() < levelConfiguration.LevelMaxGems[levelConfiguration.CurrentLevel])
         {
             // Spawn Object
             SpawnObject();
@@ -93,7 +95,7 @@ public class ObjectSpawner : MonoBehaviour
 
             if (randomChoice <= enemyProbability)
             {
-                if (_enemiesCount >= maxEnemies) continue;
+                if (_enemiesCount >= levelConfiguration.LevelMaxEnemies[levelConfiguration.CurrentLevel]) continue;
                 _enemiesCount++;
                 return ObjectType.Enemy;
             }

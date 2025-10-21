@@ -12,12 +12,11 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public GameObject loadCanvas;
     public List<GameObject> levels;
-    private int _currentLevelIndex;
     
     public GameObject gameOverScreen;
     public TMP_Text scoreText;
-    private int _survivedLevelsCount = 0;
-    private int _gemsCollectedCount  = 0;
+
+    public LevelConfiguration levelConfiguration;
     
     public static event Action OnReset;
 
@@ -34,7 +33,7 @@ public class GameController : MonoBehaviour
 
     private void IncreaseProgressAmount(int amount)
     {
-        _gemsCollectedCount++;
+        levelConfiguration.GemCollectedCount++;
         _progressAmount += amount;
         progressSlider.value = _progressAmount;
         if (_progressAmount >= 100)
@@ -52,20 +51,19 @@ public class GameController : MonoBehaviour
     {
         loadCanvas.SetActive(false);
         
-        levels[_currentLevelIndex].gameObject.SetActive(false);
+        levels[levelConfiguration.CurrentLevel].gameObject.SetActive(false);
         levels[level].gameObject.SetActive(true);
 
         player.transform.position = new Vector3(0, 2, 0);
-
-        _currentLevelIndex = level;
+        levelConfiguration.CurrentLevel = level;
         _progressAmount = 0;
         progressSlider.value = 0;
-        if(increaseSurvivedLevels) _survivedLevelsCount++;
+        if(increaseSurvivedLevels) levelConfiguration.LevelCompletedCount++;
     }
 
     private void LoadNextLevel()
     {
-        int nextLevelIndex = (_currentLevelIndex == levels.Count - 1) ? 0 : _currentLevelIndex + 1;
+        int nextLevelIndex = (levelConfiguration.CurrentLevel == levels.Count - 1) ? 0 : levelConfiguration.CurrentLevel + 1;
         LoadLevel(nextLevelIndex, true);
 
     }
@@ -73,15 +71,15 @@ public class GameController : MonoBehaviour
     private void GameOverScreen()
     {
         gameOverScreen.SetActive(true);
-        scoreText.text = "YOU GOT "+ _gemsCollectedCount +" GEMS IN YOUR ADVENTURE";
+        scoreText.text = "YOU GOT "+ levelConfiguration.GemCollectedCount +" GEMS IN YOUR ADVENTURE";
         Time.timeScale = 0;
     }
 
     public void ResetGame()
     {
         gameOverScreen.SetActive(false);
-        _survivedLevelsCount = 0;
-        _gemsCollectedCount = 0;
+        levelConfiguration.GemCollectedCount = 0;
+        levelConfiguration.LevelCompletedCount = 0;
         LoadLevel(0);
         OnReset?.Invoke();
         Time.timeScale = 1;

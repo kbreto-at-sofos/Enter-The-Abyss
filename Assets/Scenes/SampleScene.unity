@@ -6898,6 +6898,7 @@ MonoBehaviour:
   maxEnemies: 3
   gemLifeTime: 30
   spawnInterval: 0.5
+  LevelConfiguration: {fileID: 11400000, guid: d4faa9a8a4b260a44b55a91e6dacc264, type: 2}
 --- !u!4 &378745019
 Transform:
   m_ObjectHideFlags: 0
@@ -20526,6 +20527,7 @@ MonoBehaviour:
   - {fileID: 1197997656}
   gameOverScreen: {fileID: 1604428512}
   scoreText: {fileID: 1909058474}
+  levelConfiguration: {fileID: 11400000, guid: d4faa9a8a4b260a44b55a91e6dacc264, type: 2}
 --- !u!4 &1371295383
 Transform:
   m_ObjectHideFlags: 0

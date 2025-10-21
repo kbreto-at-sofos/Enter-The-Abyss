@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class GameController : MonoBehaviour
     public TMP_Text scoreText;
     private int _survivedLevelsCount = 0;
     private int _gemsCollectedCount  = 0;
+    
+    public static event Action OnReset;
 
     void Start()
     {
@@ -32,7 +35,6 @@ public class GameController : MonoBehaviour
     private void IncreaseProgressAmount(int amount)
     {
         _gemsCollectedCount++;
-        Debug.Log(_gemsCollectedCount);
         _progressAmount += amount;
         progressSlider.value = _progressAmount;
         if (_progressAmount >= 100)
@@ -46,20 +48,25 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void LoadNextLevel()
+    private void LoadLevel(int level, bool increaseSurvivedLevels = false)
     {
-        int nextLevelIndex = (_currentLevelIndex == levels.Count - 1) ? 0 : _currentLevelIndex + 1;
         loadCanvas.SetActive(false);
         
         levels[_currentLevelIndex].gameObject.SetActive(false);
-        levels[nextLevelIndex].gameObject.SetActive(true);
+        levels[level].gameObject.SetActive(true);
 
         player.transform.position = new Vector3(0, 2, 0);
 
-        _currentLevelIndex = nextLevelIndex;
+        _currentLevelIndex = level;
         _progressAmount = 0;
         progressSlider.value = 0;
-        _survivedLevelsCount++;
+        if(increaseSurvivedLevels) _survivedLevelsCount++;
+    }
+
+    private void LoadNextLevel()
+    {
+        int nextLevelIndex = (_currentLevelIndex == levels.Count - 1) ? 0 : _currentLevelIndex + 1;
+        LoadLevel(nextLevelIndex, true);
 
     }
 
@@ -67,5 +74,16 @@ public class GameController : MonoBehaviour
     {
         gameOverScreen.SetActive(true);
         scoreText.text = "YOU GOT "+ _gemsCollectedCount +" GEMS IN YOUR ADVENTURE";
+        Time.timeScale = 0;
+    }
+
+    public void ResetGame()
+    {
+        gameOverScreen.SetActive(false);
+        _survivedLevelsCount = 0;
+        _gemsCollectedCount = 0;
+        LoadLevel(0);
+        OnReset?.Invoke();
+        Time.timeScale = 1;
     }
 }

@@ -55,8 +55,9 @@ public class Enemy : MonoBehaviour
             RaycastHit2D platformAbove =
                 Physics2D.Raycast(transform.position, Vector2.up, 3f, groundLayer);
 
-            if (groundInFront.collider || gapAhead.collider)
+            if (groundInFront.collider || !gapAhead.collider)
             {
+                Debug.Log(groundInFront.collider);
                 _shouldJump = true;
             }else if (isPlayerAbove && platformAbove.collider)
             {

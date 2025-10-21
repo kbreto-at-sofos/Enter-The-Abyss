@@ -35,6 +35,8 @@ public class ObjectSpawner : MonoBehaviour
         
         // spawn objects
         StartCoroutine(SpawnObjectsIfNeeded());
+
+        GameController.OnReset += LevelChange;
     }
     
 
@@ -44,7 +46,7 @@ public class ObjectSpawner : MonoBehaviour
         if (!tilemap.gameObject.activeInHierarchy)
         {
             //Level change
-            levelChange();
+            LevelChange();
         }
         if (!_isSpawning && ActiveObjectCount() < maxObjects)
         {
@@ -52,7 +54,7 @@ public class ObjectSpawner : MonoBehaviour
         }
     }
 
-    private void levelChange()
+    private void LevelChange()
     {
         DestroyAllSpawnedObjects();
         tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
@@ -181,7 +183,7 @@ public class ObjectSpawner : MonoBehaviour
                 TileBase tile = allTiles[y * boundsInt.size.x + x];
                 if (tile != null)
                 {
-                    Vector3 place = start + new Vector3(x, y + 2f, 0);
+                    Vector3 place = start + new Vector3(x + 1f, y + 2f, 0);
                     _validSpawnPositions.Add(place);
                 }
             }

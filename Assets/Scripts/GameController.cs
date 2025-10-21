@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,11 @@ public class GameController : MonoBehaviour
     public GameObject loadCanvas;
     public List<GameObject> levels;
     private int _currentLevelIndex;
+    
+    public GameObject gameOverScreen;
+    public TMP_Text scoreText;
+    private int _survivedLevelsCount = 0;
+    private int _gemsCollectedCount  = 0;
 
     void Start()
     {
@@ -18,11 +24,15 @@ public class GameController : MonoBehaviour
         progressSlider.value = 0;
         Gem.OnGemCollect += IncreaseProgressAmount;
         HoldToLoadLevel.OnHoldComplete += LoadNextLevel;
+        PlayerHealth.OnPlayerDied += GameOverScreen;
         loadCanvas.SetActive(false);
+        gameOverScreen.SetActive(false);
     }
 
     private void IncreaseProgressAmount(int amount)
     {
+        _gemsCollectedCount++;
+        Debug.Log(_gemsCollectedCount);
         _progressAmount += amount;
         progressSlider.value = _progressAmount;
         if (_progressAmount >= 100)
@@ -32,6 +42,7 @@ public class GameController : MonoBehaviour
             Debug.Log("Level Completed!");
             
             loadCanvas.SetActive(true);
+            
         }
     }
 
@@ -48,6 +59,13 @@ public class GameController : MonoBehaviour
         _currentLevelIndex = nextLevelIndex;
         _progressAmount = 0;
         progressSlider.value = 0;
+        _survivedLevelsCount++;
 
+    }
+
+    private void GameOverScreen()
+    {
+        gameOverScreen.SetActive(true);
+        scoreText.text = "YOU GOT "+ _gemsCollectedCount +" GEMS IN YOUR ADVENTURE";
     }
 }

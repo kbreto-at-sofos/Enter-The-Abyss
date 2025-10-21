@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     private bool _isGrounded;
     private bool _shouldJump;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public int damage = 1;
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -63,7 +65,6 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(_isGrounded + " " +  _shouldJump);
         if (_isGrounded && _shouldJump)
         {
             _shouldJump = false;

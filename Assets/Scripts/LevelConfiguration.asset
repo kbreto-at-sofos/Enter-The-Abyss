@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592cb710ff7174b40afbd56a695de9e1, type: 3}
   m_Name: LevelConfiguration
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfiguration
-  coinCollectedCount: 0
-  levelCompletedCount: 0
-  levelMaxEnemies: 010000000200000003000000
+  GemCollectedCount: 28
+  LevelCompletedCount: 2
+  CurrentLevel: 2
+  LevelMaxEnemies: 010000000200000003000000
+  LevelMaxGems: 0a0000000600000004000000

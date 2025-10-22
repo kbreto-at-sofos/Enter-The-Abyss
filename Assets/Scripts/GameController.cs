@@ -15,13 +15,15 @@ public class GameController : MonoBehaviour
     
     public GameObject gameOverScreen;
     public TMP_Text scoreText;
+    public TMP_Text levelText;
 
     public LevelConfiguration levelConfiguration;
-    
+    public int currentLevel = 0;
     public static event Action OnReset;
 
     void Start()
     {
+        InitialLevelConfiguration();
         _progressAmount = 0;
         progressSlider.value = 0;
         Gem.OnGemCollect += IncreaseProgressAmount;
@@ -29,6 +31,13 @@ public class GameController : MonoBehaviour
         PlayerHealth.OnPlayerDied += GameOverScreen;
         loadCanvas.SetActive(false);
         gameOverScreen.SetActive(false);
+    }
+
+    void InitialLevelConfiguration()
+    {
+        levelConfiguration.CurrentLevel = currentLevel;
+        levelConfiguration.GemCollectedCount = 0;
+        levelConfiguration.LevelCompletedCount = 0;
     }
 
     private void IncreaseProgressAmount(int amount)
@@ -72,6 +81,8 @@ public class GameController : MonoBehaviour
     {
         gameOverScreen.SetActive(true);
         scoreText.text = "YOU GOT "+ levelConfiguration.GemCollectedCount +" GEMS IN YOUR ADVENTURE";
+        levelText.text = "YOU COMPLETED "+ levelConfiguration.LevelCompletedCount +" LEVEL";
+        if (levelConfiguration.LevelCompletedCount != 1) levelText.text += "S";
         Time.timeScale = 0;
     }
 

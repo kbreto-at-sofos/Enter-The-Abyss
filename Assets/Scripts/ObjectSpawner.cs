@@ -50,7 +50,7 @@ public class ObjectSpawner : MonoBehaviour
             //Level change
             LevelChange();
         }
-        if (!_isSpawning && ActiveObjectCount() < levelConfiguration.LevelMaxGems[levelConfiguration.CurrentLevel])
+        if (!_isSpawning && ActiveObjectCount() < levelConfiguration.GetMaxObjects())
         {
             StartCoroutine(SpawnObjectsIfNeeded());
         }
@@ -65,14 +65,14 @@ public class ObjectSpawner : MonoBehaviour
 
     private int ActiveObjectCount()
     {
-        _spawnObjects.RemoveAll(item => item == null);
+        _spawnObjects.RemoveAll(item => !item.activeSelf);
         return _spawnObjects.Count;
     }
 
     private IEnumerator SpawnObjectsIfNeeded()
     {
         _isSpawning = true;
-        while (ActiveObjectCount() < levelConfiguration.LevelMaxGems[levelConfiguration.CurrentLevel])
+        while (ActiveObjectCount() < levelConfiguration.GetMaxObjects())
         {
             // Spawn Object
             SpawnObject();
@@ -95,11 +95,10 @@ public class ObjectSpawner : MonoBehaviour
 
             if (randomChoice <= enemyProbability)
             {
-                if (_enemiesCount >= levelConfiguration.LevelMaxEnemies[levelConfiguration.CurrentLevel]) continue;
+                if (_enemiesCount >= levelConfiguration.GetMaxEnemies()) continue;
                 _enemiesCount++;
                 return ObjectType.Enemy;
-            }
-            else if (randomChoice <= (enemyProbability + bigGemProbability))
+            }else if (randomChoice <= (enemyProbability + bigGemProbability))
             {
                 return ObjectType.BigGem;
             }
@@ -135,26 +134,29 @@ public class ObjectSpawner : MonoBehaviour
         if (validPositionFound)
         {
             ObjectType objectType = GetRandomObjectType();
-            GameObject gameObject = Instantiate(objectPrefabs[(int)objectType],  spawnPosition, Quaternion.identity);
-            _spawnObjects.Add(gameObject);
+            
+            if (_spawnObjects.Count >= levelConfiguration.GetMaxObjects()) return;
+            // GameObject gameObject = Instantiate(objectPrefabs[(int)objectType],  spawnPosition, Quaternion.identity);
+            var newObj = ObjectPoolManager.SpawnObject(objectPrefabs[(int)objectType], spawnPosition, Quaternion.identity);
+            _spawnObjects.Add(newObj);
             
             // destroy gems after a time
             if (objectType != ObjectType.Enemy)
             {
-                StartCoroutine(DestroyObjectAfterTime(gameObject, gemLifeTime));
+                StartCoroutine(DestroyObjectAfterTime(newObj, gemLifeTime));
             }
         }
     }
 
-    private IEnumerator DestroyObjectAfterTime(GameObject gameObject, float time)
+    private IEnumerator DestroyObjectAfterTime(GameObject obj, float time)
     {
         yield return new WaitForSeconds(time);
 
-        if (gameObject != null)
+        if (obj)
         {
-            _spawnObjects.Remove(gameObject);
+            _spawnObjects.Remove(obj);
             _validSpawnPositions.Add(gameObject.transform.position);
-            Destroy(gameObject);
+            if(obj.activeSelf) ObjectPoolManager.ReturnObjectToPool(obj);
         }
     }
 
@@ -162,9 +164,9 @@ public class ObjectSpawner : MonoBehaviour
     {
         foreach (var obj in _spawnObjects)
         {
-            if (obj != null)
+            if (obj && obj.activeSelf)
             {
-                Destroy(obj);
+                ObjectPoolManager.ReturnObjectToPool(obj);
             }
         }
         _spawnObjects.Clear();
@@ -183,7 +185,7 @@ public class ObjectSpawner : MonoBehaviour
             for (int y = 0; y < boundsInt.size.y; y++)
             {
                 TileBase tile = allTiles[y * boundsInt.size.x + x];
-                if (tile != null)
+                if (tile)
                 {
                     Vector3 place = start + new Vector3(x + 1f, y + 2f, 0);
                     _validSpawnPositions.Add(place);

@@ -10,6 +10,6 @@ public class Gem : MonoBehaviour, IItem
     public void Collect()
     {
         OnGemCollect?.Invoke(worth);
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

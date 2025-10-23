@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
 
     public GameObject player;
     public GameObject loadCanvas;
+    public GameObject tutorialCanvas;
     public List<GameObject> levels;
     
     public GameObject gameOverScreen;
@@ -48,9 +49,8 @@ public class GameController : MonoBehaviour
         if (_progressAmount >= 100)
         {
             // Level complete!
-            Debug.Log(_progressAmount);
-            Debug.Log("Level Completed!");
-            
+
+            tutorialCanvas.SetActive(false);
             loadCanvas.SetActive(true);
             
         }

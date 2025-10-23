@@ -79,6 +79,7 @@ public class GameController : MonoBehaviour
 
     private void GameOverScreen()
     {
+        MusicManager.PauseBackgroundMusic();
         gameOverScreen.SetActive(true);
         scoreText.text = "YOU GOT "+ levelConfiguration.GemCollectedCount +" GEMS IN YOUR ADVENTURE";
         levelText.text = "YOU COMPLETED "+ levelConfiguration.LevelCompletedCount +" LEVEL";
@@ -88,6 +89,7 @@ public class GameController : MonoBehaviour
 
     public void ResetGame()
     {
+        MusicManager.PlayBackgroundMusic(true);
         gameOverScreen.SetActive(false);
         levelConfiguration.GemCollectedCount = 0;
         levelConfiguration.LevelCompletedCount = 0;

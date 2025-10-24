@@ -28,7 +28,6 @@ public class SoundEffectManager : MonoBehaviour
 
     public static void Play(string soundName)
     {
-        Debug.Log(soundName);
         AudioClip audioClip = _soundEffectLibrary.GetRandomClip(soundName);
         if (audioClip != null)
         {

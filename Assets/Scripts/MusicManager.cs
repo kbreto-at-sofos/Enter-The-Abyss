@@ -34,11 +34,16 @@ public class MusicManager : MonoBehaviour
         }
         
         musicSlider.onValueChanged.AddListener(delegate { SetVolume(musicSlider.value);});
+        float savedVolume = PlayerPrefs.GetFloat("MusicVolume", 100);
+        SetVolume(savedVolume);
+        musicSlider.value = savedVolume;
     }
 
     public static void SetVolume(float volume)
     {
         _instance._audioSource.volume = volume;
+        PlayerPrefs.SetFloat("MusicVolume", volume);
+        PlayerPrefs.Save();
     }
 
     public static void PlayBackgroundMusic(bool resetSong, AudioClip audioClip = null)

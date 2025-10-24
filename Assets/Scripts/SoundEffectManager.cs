@@ -38,11 +38,16 @@ public class SoundEffectManager : MonoBehaviour
     void Start()
     {
         sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged(); });
+        float savedVolume = PlayerPrefs.GetFloat("SFXVolume", 100);
+        SetVolume(savedVolume);
+        sfxSlider.value = savedVolume;
     }
 
     public static void SetVolume(float volume)
     {
         _audioSource.volume = volume;
+        PlayerPrefs.SetFloat("SFXVolume", volume);
+        PlayerPrefs.Save();
     }
 
     public void OnValueChanged()

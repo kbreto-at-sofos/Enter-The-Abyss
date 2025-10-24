@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 34951009}
   - component: {fileID: 34951010}
   m_Layer: 5
-  m_Name: HearContainer
+  m_Name: HeartContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5379,24 +5379,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2969532247284987021, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 122771227}
   m_SourcePrefab: {fileID: 100100000, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
 --- !u!224 &122771225 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1972289163294080008, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
   m_PrefabInstance: {fileID: 122771224}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &122771226 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5517174091933881872, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
+--- !u!1 &122771226 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2969532247284987021, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
   m_PrefabInstance: {fileID: 122771224}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &122771227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122771226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 87b5097b73ff447458e34f5de6367fad, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_EditorClassIdentifier: Assembly-CSharp::HoverAnimation
+  hoverConfig: {fileID: 11400000, guid: 33c0307345a991d42b1ec860ebe9bc86, type: 2}
+  doSoundEffect: 1
 --- !u!1 &127000733
 GameObject:
   m_ObjectHideFlags: 0
@@ -5700,7 +5711,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2969532247284987021, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 564821147}
   m_SourcePrefab: {fileID: 100100000, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
 --- !u!224 &179441454 stripped
 RectTransform:
@@ -7858,6 +7872,25 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!1 &564821142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2969532247284987021, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
+  m_PrefabInstance: {fileID: 179441453}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &564821147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564821142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b5097b73ff447458e34f5de6367fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverAnimation
+  hoverConfig: {fileID: 11400000, guid: 33c0307345a991d42b1ec860ebe9bc86, type: 2}
+  doSoundEffect: 1
 --- !u!1 &593047738
 GameObject:
   m_ObjectHideFlags: 0
@@ -10013,6 +10046,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7c506f70f35068846985aa3cc1fbd603, type: 3}
     - {fileID: 8300000, guid: 5c677c318c1e62140bc87ce474989380, type: 3}
     - {fileID: 8300000, guid: f29f3b6f4d89fb94b89cddc297f7047b, type: 3}
+  - name: ButtonHover
+    audioClips:
+    - {fileID: 8300000, guid: 264765a50d983ef468763b369d75c474, type: 3}
 --- !u!82 &754705474
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15143,7 +15179,7 @@ RectTransform:
   m_Father: {fileID: 1988831084}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -15338,7 +15374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &944227333
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15430,8 +15466,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2112148522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -17730,7 +17766,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1163892937
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17751,7 +17787,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.5153, y: 1.5051}
+  m_AnchoredPosition: {x: 0, y: 1.5051}
   m_SizeDelta: {x: 1909.1277, y: 1078.3137}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1163892938
@@ -18322,8 +18358,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 604974731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -22158,7 +22194,6 @@ MonoBehaviour:
   pauseScreen: {fileID: 1163892936}
   levelCompletedScreen: {fileID: 1702190072}
   levelCompletedText: {fileID: 11471496}
-  historyButton: {fileID: 122771226}
   levelConfiguration: {fileID: 11400000, guid: d4faa9a8a4b260a44b55a91e6dacc264, type: 2}
   history: {fileID: 11400000, guid: f70e4214c1f8b854aaeed20507797e7c, type: 2}
 --- !u!4 &1371295383
@@ -22945,13 +22980,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2969532247284987021, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1574945274}
   m_SourcePrefab: {fileID: 100100000, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
 --- !u!224 &1574945272 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1972289163294080008, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
   m_PrefabInstance: {fileID: 1574945271}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1574945273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2969532247284987021, guid: 7777a3baa46bdae409d26f0e434cb261, type: 3}
+  m_PrefabInstance: {fileID: 1574945271}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1574945274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574945273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b5097b73ff447458e34f5de6367fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverAnimation
+  hoverConfig: {fileID: 11400000, guid: 33c0307345a991d42b1ec860ebe9bc86, type: 2}
+  doSoundEffect: 1
 --- !u!1 &1584907393
 GameObject:
   m_ObjectHideFlags: 0
@@ -23725,6 +23782,7 @@ GameObject:
   - component: {fileID: 1817551237}
   - component: {fileID: 1817551236}
   - component: {fileID: 1817551235}
+  - component: {fileID: 1817551238}
   m_Layer: 5
   m_Name: LevelCompletedButton
   m_TagString: Untagged
@@ -23846,6 +23904,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1817551233}
   m_CullTransparentMesh: 1
+--- !u!114 &1817551238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817551233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b5097b73ff447458e34f5de6367fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverAnimation
+  hoverConfig: {fileID: 11400000, guid: 33c0307345a991d42b1ec860ebe9bc86, type: 2}
+  doSoundEffect: 1
 --- !u!1 &1834302316
 GameObject:
   m_ObjectHideFlags: 0
@@ -23879,7 +23951,7 @@ RectTransform:
   m_Father: {fileID: 1800899510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -24901,6 +24973,7 @@ GameObject:
   - component: {fileID: 2055393510}
   - component: {fileID: 2055393509}
   - component: {fileID: 2055393508}
+  - component: {fileID: 2055393511}
   m_Layer: 5
   m_Name: RetryButton
   m_TagString: Untagged
@@ -25022,6 +25095,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055393506}
   m_CullTransparentMesh: 1
+--- !u!114 &2055393511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055393506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b5097b73ff447458e34f5de6367fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverAnimation
+  hoverConfig: {fileID: 11400000, guid: 33c0307345a991d42b1ec860ebe9bc86, type: 2}
+  doSoundEffect: 1
 --- !u!1 &2112148521
 GameObject:
   m_ObjectHideFlags: 0

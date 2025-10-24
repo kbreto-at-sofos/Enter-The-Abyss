@@ -28,6 +28,7 @@ public class SoundEffectManager : MonoBehaviour
 
     public static void Play(string soundName)
     {
+        Debug.Log(soundName);
         AudioClip audioClip = _soundEffectLibrary.GetRandomClip(soundName);
         if (audioClip != null)
         {
@@ -37,10 +38,15 @@ public class SoundEffectManager : MonoBehaviour
 
     void Start()
     {
-        sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged(); });
+
         float savedVolume = PlayerPrefs.GetFloat("SFXVolume", 100);
         SetVolume(savedVolume);
-        sfxSlider.value = savedVolume;
+
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = savedVolume;
+            sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged(); });
+        }
     }
 
     public static void SetVolume(float volume)

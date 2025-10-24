@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class GameController : MonoBehaviour
 {
     private int _progressAmount;
@@ -33,6 +34,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+
+
         // set levelConfig counters to 0
         InitialLevelConfiguration();
 
@@ -198,6 +201,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            
             MusicManager.PauseBackgroundMusic();
             pauseScreen.SetActive(true);
             Time.timeScale = 0;

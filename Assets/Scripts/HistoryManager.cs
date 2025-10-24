@@ -1,5 +1,8 @@
+using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HistoryManager : MonoBehaviour
 {
@@ -8,6 +11,7 @@ public class HistoryManager : MonoBehaviour
     public GameObject historyCanvas;
     public TMP_Text historyText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
 
     private void Awake()
     {
@@ -25,15 +29,16 @@ public class HistoryManager : MonoBehaviour
     public static void ShowHistory(string text)
     {
         Time.timeScale = 0;
-        _instance.historyCanvas.SetActive(true);
+        // Make sure it's active and visible
+        _instance.historyCanvas.gameObject.SetActive(true);
         _instance.historyText.text = text;
-        
     }
 
     public static void HideHistory()
     {
-        _instance.historyCanvas.SetActive(false);
+        _instance.historyCanvas.gameObject.SetActive(false);
         _instance.historyText.text = "";
         Time.timeScale = 1;
+        EventSubscriber.Publish(GameEvent.HistoryClosed);
     }
 }

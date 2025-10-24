@@ -9,7 +9,7 @@ public class ObjectSpawner : MonoBehaviour
 {
     public enum ObjectType { Gem, BigGem, Enemy }
 
-    public Tilemap tilemap;
+    private Tilemap _tilemap;
     public GameObject[] objectPrefabs;
     public float gemProbability;
     public float bigGemProbability = 0.2f;
@@ -38,14 +38,14 @@ public class ObjectSpawner : MonoBehaviour
         // spawn objects
         StartCoroutine(SpawnObjectsIfNeeded());
 
-        GameController.OnReset += LevelChange;
+        EventSubscriber.Subscribe(GameEvent.ResetGame, LevelChange);
     }
     
 
     // Update is called once per frame
     private void Update()
     {
-        if (!tilemap || !tilemap.gameObject.activeInHierarchy)
+        if (!_tilemap || !_tilemap.gameObject.activeInHierarchy)
         {
             //Level change
             LevelChange();
@@ -60,7 +60,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         var currentGameObject = GameObject.Find("Ground");
         if (!currentGameObject) return;
-        tilemap = currentGameObject.GetComponent<Tilemap>();
+        _tilemap = currentGameObject.GetComponent<Tilemap>();
         DestroyAllSpawnedObjects();
         GatherValidPositions();
     }
@@ -177,10 +177,10 @@ public class ObjectSpawner : MonoBehaviour
     private void GatherValidPositions()
     {
         _validSpawnPositions.Clear();
-        BoundsInt boundsInt = tilemap.cellBounds;
-        TileBase[] allTiles = tilemap.GetTilesBlock(boundsInt);
+        BoundsInt boundsInt = _tilemap.cellBounds;
+        TileBase[] allTiles = _tilemap.GetTilesBlock(boundsInt);
 
-        Vector3 start = tilemap.CellToWorld(new Vector3Int(boundsInt.xMin, boundsInt.yMin, 0));
+        Vector3 start = _tilemap.CellToWorld(new Vector3Int(boundsInt.xMin, boundsInt.yMin, 0));
 
         for (int x = 0; x < boundsInt.size.x; x++)
         {

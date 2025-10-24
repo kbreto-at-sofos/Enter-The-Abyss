@@ -14,8 +14,6 @@ public class HoldToLoadLevel : MonoBehaviour
 
     private bool _isHolding;
 
-    public static event Action OnHoldComplete;
-
 
     // Update is called once per frame
     void Update()
@@ -27,7 +25,7 @@ public class HoldToLoadLevel : MonoBehaviour
             if (_holdTimer >= holdDuration)
             {
                 //load next level
-                OnHoldComplete?.Invoke();
+                EventSubscriber.Publish(GameEvent.LevelCompleted);
                 ResetHold();
             }
         }

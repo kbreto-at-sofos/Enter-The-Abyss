@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe42ca9da3a1064fb1829c21a3edeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gem
-  worth: 30
+  worth: 100
 --- !u!58 &6204795930024950595
 CircleCollider2D:
   m_ObjectHideFlags: 0

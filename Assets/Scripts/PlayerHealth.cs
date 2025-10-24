@@ -10,13 +10,12 @@ public class PlayerHealth : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
 
-    public static event Action OnPlayerDied;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ResetHealth();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        GameController.OnReset += ResetHealth;
+        EventSubscriber.Subscribe(GameEvent.ResetGame, ResetHealth);
     }
 
     private void ResetHealth()
@@ -45,7 +44,7 @@ public class PlayerHealth : MonoBehaviour
         {
             Debug.Log("Game Over");
             // player dead! call game over.
-            OnPlayerDied?.Invoke();
+            EventSubscriber.Publish(GameEvent.PlayerDied);
         }
     }
 
@@ -54,10 +53,5 @@ public class PlayerHealth : MonoBehaviour
         _spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.2f);
         _spriteRenderer.color = Color.white;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

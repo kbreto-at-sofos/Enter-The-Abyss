@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public GameObject loadCanvas;
     public List<GameObject> levels;
-    private List<bool> _levelsActive = new List<bool>();
+    private readonly List<bool> _levelsActive = new List<bool>();
 
     public GameObject gameOverScreen;
     public TMP_Text scoreText;
@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     public Button continueButton;
 
     public LevelConfiguration levelConfiguration;
+    public History history;
     public static event Action OnReset;
 
     void Start()
@@ -81,8 +82,10 @@ public class GameController : MonoBehaviour
 
     private void LoadLevel(int level, bool increaseSurvivedLevels = false)
     {
+        HistoryManager.ShowHistory(history.levelHistory[level]);
+        
         loadCanvas.SetActive(false);
-
+        
         // call credits
         if (level >= levels.Count)
         {
@@ -95,6 +98,9 @@ public class GameController : MonoBehaviour
 
         // deactivate all other levels but the one sent in the args
         // call setActive only when needed
+        levels[levelConfiguration.CurrentLevel].gameObject.SetActive(false);
+        _levelsActive[levelConfiguration.CurrentLevel] = false;
+        
         for (int i = 0; i < _levelsActive.Count; i++)
         {
             if (i == level && !_levelsActive[i])

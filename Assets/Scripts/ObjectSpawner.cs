@@ -33,7 +33,7 @@ public class ObjectSpawner : MonoBehaviour
     void Start()
     {
         // gather valid positions
-        GatherValidPositions();
+        LevelChange();
         
         // spawn objects
         StartCoroutine(SpawnObjectsIfNeeded());
@@ -43,14 +43,14 @@ public class ObjectSpawner : MonoBehaviour
     
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (!tilemap.gameObject.activeInHierarchy)
+        if (!tilemap || !tilemap.gameObject.activeInHierarchy)
         {
             //Level change
             LevelChange();
         }
-        if (!_isSpawning && ActiveObjectCount() < levelConfiguration.GetMaxObjects())
+        if (_validSpawnPositions.Count > 0 && !_isSpawning && ActiveObjectCount() < levelConfiguration.GetMaxObjects())
         {
             StartCoroutine(SpawnObjectsIfNeeded());
         }
@@ -58,8 +58,10 @@ public class ObjectSpawner : MonoBehaviour
 
     private void LevelChange()
     {
+        var currentGameObject = GameObject.Find("Ground");
+        if (!currentGameObject) return;
+        tilemap = currentGameObject.GetComponent<Tilemap>();
         DestroyAllSpawnedObjects();
-        tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
         GatherValidPositions();
     }
 

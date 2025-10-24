@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e55ffe1834f3d44bdfce60b25feb08, type: 3}
+  m_Name: History
+  m_EditorClassIdentifier: Assembly-CSharp::History
+  levelHistory:
+  - "Dice una leyenda que al fondo del abism\xF3 hay una entidad que concede  cualquier
+    deseo: riquezas, poder, amor e incluso puede traer a un fallecido de la muerte.
+    nadie  que haya entrado al abismo ha vuelto, dentro del abismo hay civilizaci\xF3n
+    pues de todos los  aventureros que bajan no todos mueren, pero no todos se atreven
+    a continuar su viaje y  quedan atrapados en el piso donde est\xE1n."
+  - En los primeros pisos he descubierto que no parece haber civilizacion alguna,
+    solo gemas preciosas y no muertos llenos de sed de sangre, sobrevivir hasta ahora
+    ha sido un milagro, pero debo seguir adelante para cumplir mi objetivo, conseguir
+    una cura para mi madre...
+  - 'Parece que mientras mas avanzo menos recursos me encuentro y mas peligrosos
+    y frecuentes se vuelven los no muertos, debo tener precaucion... '
+  - "He encontrado un peque\xF1o refugio al final del tercer piso, mi viaje hasta
+    ahora ha sido dificil pero no permitire que eso me desanime, estas gemas que
+    consigo deben ser muy valiosas en la superficie. despues descansar lo suficiente
+    continuare mi viaje hacia el fondo de abismo.\\n\\n Esta historia continuara..."

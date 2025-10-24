@@ -18,12 +18,14 @@ public class GameController : MonoBehaviour
     [Header("Game Over Properties")] public GameObject gameOverScreen;
     public TMP_Text scoreText;
     public TMP_Text levelText;
-    public Button retryButton;
-    public Button continueButton;
 
     [Header("Pause Properties")] public GameObject pauseScreen;
-
     private bool _isPaused;
+
+    [Header("Level Completed Properties")] 
+    public GameObject levelCompletedScreen;
+    public TMP_Text levelCompletedText;
+    public Button historyButton;
 
 
     [Header("Scriptable Objects")] public LevelConfiguration levelConfiguration;
@@ -50,7 +52,7 @@ public class GameController : MonoBehaviour
 
         // asign functions
         Gem.OnGemCollect += IncreaseProgressAmount;
-        HoldToLoadLevel.OnHoldComplete += LoadNextLevel;
+        HoldToLoadLevel.OnHoldComplete += OnLevelCompleted;
         PlayerHealth.OnPlayerDied += delegate { GameOverScreen(); };
 
         // deactivate canvases
@@ -88,16 +90,18 @@ public class GameController : MonoBehaviour
 
     private void LoadLevel(int level, bool increaseSurvivedLevels = false)
     {
-        HistoryManager.ShowHistory(history.levelHistory[level]);
-
-        loadCanvas.SetActive(false);
 
         // call credits
         if (level >= levels.Count)
         {
-            GameOverScreen(true);
+            historyButton.onClick.AddListener(LoadCredits);
+            HistoryManager.ShowHistory(history.levelHistory[level]);
             return;
         }
+        
+        
+        HistoryManager.ShowHistory(history.levelHistory[level]);
+        loadCanvas.SetActive(false);
 
         // it always will be costly to check/modify activeSelf property 
         //https://discussions.unity.com/t/the-cost-of-gameobject-setactive-with-no-change/940885/6
@@ -128,30 +132,21 @@ public class GameController : MonoBehaviour
         if (increaseSurvivedLevels) levelConfiguration.LevelCompletedCount++;
     }
 
-    private void LoadNextLevel()
-    {
-        // loop game
-        int nextLevelIndex = (levelConfiguration.CurrentLevel == levels.Count - 1)
-            ? 0
-            : levelConfiguration.CurrentLevel + 1;
-        LoadLevel(levelConfiguration.CurrentLevel + 1, true);
-    }
-
     public void LoadCredits()
     {
+        Time.timeScale = 0;
+        SavePlayerStats(false);
         levelConfiguration.IsWin = true;
         SceneManager.LoadScene("Scenes/StartScene");
     }
 
-    private void GameOverScreen(bool isWin = false)
+    private void GameOverScreen()
     {
         MusicManager.PauseBackgroundMusic();
 
         Time.timeScale = 0;
         ActivateGameOverScreenText();
-        retryButton.gameObject.SetActive(!isWin);
-        continueButton.gameObject.SetActive(isWin);
-        SavePlayerStats(!isWin);
+        SavePlayerStats(true);
     }
 
     private void ActivateGameOverScreenText()
@@ -225,5 +220,26 @@ public class GameController : MonoBehaviour
     {
         SceneManager.LoadScene("Scenes/StartScene");
         Time.timeScale = 1;
+    }
+
+    public void OnLevelCompleted()
+    {
+        Time.timeScale = 0;
+        levelCompletedScreen.SetActive(true);
+        levelCompletedText.text = $"Nivel {levelConfiguration.CurrentLevel + 1} Completado!\n\nGemas Recolectadas {levelConfiguration.GemCollectedCount}\nTiempo Transcurrido {levelConfiguration.GameTime} segundos";
+
+    }
+
+    public void OnContinueToNextLevel()
+    {
+        
+        // loop game
+        // int nextLevelIndex = (levelConfiguration.CurrentLevel == levels.Count - 1)
+        //     ? 0
+        //     : levelConfiguration.CurrentLevel + 1;
+        
+        levelCompletedScreen.SetActive(false);
+        var nextLevel = levelConfiguration.CurrentLevel + 1;
+        LoadLevel(nextLevel, true);
     }
 }

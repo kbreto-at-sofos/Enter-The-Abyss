@@ -8,20 +8,25 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     private int _progressAmount;
-    public Slider progressSlider;
+    [Header("Slider")] public Slider progressSlider;
 
-    public GameObject player;
+    [Header("Game Properties")] public GameObject player;
     public GameObject loadCanvas;
     public List<GameObject> levels;
     private readonly List<bool> _levelsActive = new List<bool>();
 
-    public GameObject gameOverScreen;
+    [Header("Game Over Properties")] public GameObject gameOverScreen;
     public TMP_Text scoreText;
     public TMP_Text levelText;
     public Button retryButton;
     public Button continueButton;
 
-    public LevelConfiguration levelConfiguration;
+    [Header("Pause Properties")] public GameObject pauseScreen;
+
+    private bool _isPaused;
+
+
+    [Header("Scriptable Objects")] public LevelConfiguration levelConfiguration;
     public History history;
     public static event Action OnReset;
 
@@ -51,6 +56,7 @@ public class GameController : MonoBehaviour
         // deactivate canvases
         loadCanvas.SetActive(false);
         gameOverScreen.SetActive(false);
+        pauseScreen.SetActive(false);
     }
 
     private void Update()
@@ -83,9 +89,9 @@ public class GameController : MonoBehaviour
     private void LoadLevel(int level, bool increaseSurvivedLevels = false)
     {
         HistoryManager.ShowHistory(history.levelHistory[level]);
-        
+
         loadCanvas.SetActive(false);
-        
+
         // call credits
         if (level >= levels.Count)
         {
@@ -100,7 +106,7 @@ public class GameController : MonoBehaviour
         // call setActive only when needed
         levels[levelConfiguration.CurrentLevel].gameObject.SetActive(false);
         _levelsActive[levelConfiguration.CurrentLevel] = false;
-        
+
         for (int i = 0; i < _levelsActive.Count; i++)
         {
             if (i == level && !_levelsActive[i])
@@ -130,6 +136,7 @@ public class GameController : MonoBehaviour
             : levelConfiguration.CurrentLevel + 1;
         LoadLevel(levelConfiguration.CurrentLevel + 1, true);
     }
+
     public void LoadCredits()
     {
         levelConfiguration.IsWin = true;
@@ -188,6 +195,35 @@ public class GameController : MonoBehaviour
         LoadLevel(0);
         InitialLevelConfiguration();
         OnReset?.Invoke();
+        Time.timeScale = 1;
+    }
+
+    public void OnPause()
+    {
+        if (_isPaused)
+        {
+            OnResume();
+        }
+        else
+        {
+            MusicManager.PauseBackgroundMusic();
+            pauseScreen.SetActive(true);
+            Time.timeScale = 0;
+            _isPaused = true;
+        }
+    }
+
+    public void OnResume()
+    {
+        _isPaused = false;
+        MusicManager.PlayBackgroundMusic(false);
+        pauseScreen.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void OnExit()
+    {
+        SceneManager.LoadScene("Scenes/StartScene");
         Time.timeScale = 1;
     }
 }
